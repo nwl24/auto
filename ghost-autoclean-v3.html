@@ -1,0 +1,1281 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Ghost AutoClean — Nettoyage professionnel de voitures à domicile en Île-de-France. Intérieur, extérieur, detailing premium. Réservation en ligne.">
+<title>Ghost AutoClean — Nettoyage Auto à Domicile · Île-de-France</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --noir: #0a0a0f;
+    --noir-2: #111118;
+    --noir-3: #18181f;
+    --argent: #c8ccd8;
+    --argent-clair: #e8eaf0;
+    --bleu-nuit: #1a1f35;
+    --accent: #7b9cf4;
+    --accent-pale: #3d4e8a;
+    --blanc: #f4f5f8;
+    --texte-muted: #7a7f94;
+    --bord: rgba(200,204,216,0.12);
+    --bord-fort: rgba(200,204,216,0.25);
+    --radius: 12px;
+    --radius-sm: 8px;
+    --car-body: #1a1f35;
+    --car-stroke: #3d4e8a;
+  }
+
+  /* Mode Clair */
+  body.light-mode {
+    --noir: #f5f6fa;
+    --noir-2: #ffffff;
+    --noir-3: #ebedf3;
+    --argent: #4a5168;
+    --argent-clair: #11121a;
+    --bleu-nuit: #cbd5f0;
+    --accent: #2b56d6;
+    --accent-pale: #cbd7f9;
+    --blanc: #0a0a0f;
+    --texte-muted: #62687f;
+    --bord: rgba(10,12,25,0.08);
+    --bord-fort: rgba(10,12,25,0.15);
+    --car-body: #cbd5f0;
+    --car-stroke: #2b56d6;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Space Grotesk', sans-serif;
+    background: var(--noir);
+    color: var(--argent-clair);
+    line-height: 1.6;
+    overflow-x: hidden;
+    transition: background 0.3s, color 0.3s;
+  }
+
+  /* ===== NAV ===== */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    padding: 1.2rem 2rem;
+    display: flex; align-items: center; justify-content: space-between;
+    background: rgba(10,10,15,0.85);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--bord);
+    transition: background 0.3s;
+  }
+  body.light-mode nav {
+    background: rgba(245,246,250,0.85);
+  }
+
+  .nav-logo {
+    display: flex; align-items: center; gap: 0.6rem;
+    font-size: 1.15rem; font-weight: 600; color: var(--blanc);
+    text-decoration: none; letter-spacing: -0.01em;
+  }
+
+  .nav-logo-icon {
+    width: 32px; height: 32px;
+    background: var(--accent-pale);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem;
+  }
+
+  .nav-links {
+    display: flex; gap: 2rem; list-style: none; align-items: center;
+  }
+
+  .nav-links a {
+    color: var(--texte-muted); text-decoration: none;
+    font-size: 0.9rem; font-weight: 400;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--blanc); }
+
+  .nav-right {
+    display: flex; align-items: center; gap: 1rem;
+  }
+
+  .nav-cta {
+    background: var(--accent); color: var(--blanc);
+    padding: 0.55rem 1.2rem; border-radius: var(--radius-sm);
+    font-weight: 600; font-size: 0.875rem;
+    text-decoration: none;
+    transition: opacity 0.2s;
+  }
+  body:not(.light-mode) .nav-cta {
+    color: var(--noir);
+  }
+
+  .nav-cta:hover { opacity: 0.85; }
+
+  /* Bouton Thème */
+  .theme-toggle {
+    background: var(--noir-3);
+    border: 1px solid var(--bord-fort);
+    color: var(--blanc);
+    padding: 0.55rem 0.85rem;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 0.85rem;
+    font-weight: 500;
+    display: flex; align-items: center; gap: 0.4rem;
+    transition: background 0.2s, border-color 0.2s;
+  }
+  .theme-toggle:hover {
+    border-color: var(--accent);
+  }
+
+  /* ===== HERO ===== */
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 8rem 2rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute; inset: 0; z-index: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 60% 50%, rgba(123,156,244,0.07) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 40% at 10% 80%, rgba(123,156,244,0.04) 0%, transparent 60%),
+      var(--noir);
+  }
+
+  .hero-grid-lines {
+    position: absolute; inset: 0; z-index: 0;
+    background-image:
+      linear-gradient(var(--bord) 1px, transparent 1px),
+      linear-gradient(90deg, var(--bord) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, black 0%, transparent 80%);
+  }
+
+  .hero-content {
+    position: relative; z-index: 1;
+    max-width: 900px; margin: 0 auto; width: 100%;
+  }
+
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    background: rgba(123,156,244,0.1);
+    border: 1px solid rgba(123,156,244,0.25);
+    padding: 0.35rem 0.9rem;
+    border-radius: 100px;
+    font-size: 0.78rem; font-weight: 500;
+    color: var(--accent);
+    margin-bottom: 1.8rem;
+    letter-spacing: 0.03em;
+  }
+
+  .hero-badge::before {
+    content: '';
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    flex-shrink: 0;
+  }
+
+  .hero-title {
+    font-size: clamp(2.8rem, 6vw, 5.2rem);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    color: var(--blanc);
+    margin-bottom: 1.2rem;
+  }
+
+  .hero-title em {
+    font-style: normal;
+    color: transparent;
+    background: linear-gradient(90deg, #7b9cf4, #b8c8ff);
+    -webkit-background-clip: text;
+    background-clip: text;
+  }
+  body.light-mode .hero-title em {
+    background: var(--accent);
+    -webkit-background-clip: text;
+    background-clip: text;
+  }
+
+  .hero-sub {
+    font-size: 1.15rem;
+    color: var(--texte-muted);
+    max-width: 520px;
+    margin-bottom: 2.5rem;
+    line-height: 1.65;
+    font-weight: 400;
+  }
+
+  .hero-actions {
+    display: flex; flex-wrap: wrap; gap: 1rem; align-items: center;
+    margin-bottom: 3.5rem;
+  }
+
+  .btn-primary {
+    background: var(--accent); color: var(--blanc);
+    border: none; padding: 0.85rem 2rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.95rem; font-weight: 600;
+    cursor: pointer; text-decoration: none;
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    font-family: inherit;
+    transition: transform 0.15s, opacity 0.15s;
+  }
+  body:not(.light-mode) .btn-primary {
+    color: var(--noir);
+  }
+
+  .btn-primary:hover { transform: translateY(-1px); opacity: 0.9; }
+
+  .btn-ghost {
+    background: transparent; color: var(--argent);
+    border: 1px solid var(--bord-fort);
+    padding: 0.85rem 1.8rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.95rem; font-weight: 500;
+    cursor: pointer; text-decoration: none;
+    font-family: inherit;
+    transition: border-color 0.2s, color 0.2s;
+  }
+
+  .btn-ghost:hover { border-color: var(--argent); color: var(--blanc); }
+
+  .hero-stats {
+    display: flex; flex-wrap: wrap; gap: 2.5rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--bord);
+  }
+
+  .hero-stat-val {
+    font-size: 1.8rem; font-weight: 700;
+    color: var(--blanc); letter-spacing: -0.02em;
+    display: block;
+  }
+
+  .hero-stat-label {
+    font-size: 0.8rem; color: var(--texte-muted);
+    font-weight: 400;
+  }
+
+  /* ===== CAR SVG SECTION ===== */
+  .car-visual {
+    position: relative; z-index: 1;
+    max-width: 900px; margin: 0 auto;
+    padding: 0 2rem 4rem;
+  }
+
+  /* ===== SECTION WRAPPER ===== */
+  section { padding: 5rem 2rem; transition: background 0.3s; }
+
+  .section-inner {
+    max-width: 1000px; margin: 0 auto;
+  }
+
+  .section-label {
+    font-size: 0.75rem; font-weight: 600;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 0.8rem;
+    font-family: 'DM Mono', monospace;
+  }
+
+  .section-title {
+    font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+    font-weight: 700; line-height: 1.15;
+    letter-spacing: -0.02em;
+    color: var(--blanc);
+    margin-bottom: 1rem;
+  }
+
+  .section-sub {
+    font-size: 1rem; color: var(--texte-muted);
+    max-width: 560px; line-height: 1.7;
+    margin-bottom: 3rem;
+  }
+
+  /* ===== PRESTATIONS ===== */
+  .prestations-bg {
+    background: var(--noir-2);
+    border-top: 1px solid var(--bord);
+    border-bottom: 1px solid var(--bord);
+  }
+
+  .prestations-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5px;
+    background: var(--bord);
+    border: 1px solid var(--bord);
+    border-radius: var(--radius);
+    overflow: hidden;
+    margin-bottom: 3rem;
+  }
+
+  .prestation-card {
+    background: var(--noir-2);
+    padding: 2.2rem 1.8rem;
+    transition: background 0.2s, transform 0.2s;
+    cursor: default;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .prestation-card:hover { background: var(--noir-3); }
+
+  .prestation-card.highlight {
+    background: radial-gradient(circle at top right, rgba(123,156,244,0.12), transparent), var(--noir-2);
+    border: 1px solid rgba(123,156,244,0.3);
+  }
+
+  .prestation-icon {
+    width: 44px; height: 44px;
+    background: rgba(123,156,244,0.1);
+    border: 1px solid rgba(123,156,244,0.2);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 1.2rem;
+    font-size: 1.3rem;
+  }
+
+  .prestation-card h3 {
+    font-size: 1.1rem; font-weight: 600;
+    color: var(--blanc); margin-bottom: 0.6rem;
+  }
+
+  .prestation-card p {
+    font-size: 0.875rem; color: var(--texte-muted);
+    line-height: 1.65; margin-bottom: 1rem;
+  }
+
+  .prestation-features-list {
+    list-style: none; margin-bottom: 1.5rem; font-size: 0.82rem; color: var(--argent);
+  }
+
+  .prestation-features-list li {
+    margin-bottom: 0.4rem; display: flex; align-items: center; gap: 0.5rem;
+  }
+  
+  .prestation-features-list li::before {
+    content: '✓'; color: var(--accent); font-weight: bold;
+  }
+
+  .prestation-price-box {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-top: auto; padding-top: 1rem; border-top: 1px solid rgba(200,204,216,0.05);
+  }
+
+  .prestation-price {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.4rem; font-weight: 700;
+    color: var(--accent);
+  }
+
+  /* ===== EXTRA OPTIONS & SUPPLEMENTS ===== */
+  .extras-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-top: 2rem;
+  }
+
+  .extra-box-card {
+    background: var(--noir-3);
+    border: 1px solid var(--bord);
+    border-radius: var(--radius);
+    padding: 1.8rem;
+  }
+
+  .extra-box-card h4 {
+    font-size: 1rem; font-weight: 600; color: var(--blanc);
+    margin-bottom: 1.2rem; display: flex; align-items: center; gap: 0.5rem;
+    border-bottom: 1px solid var(--bord); padding-bottom: 0.5rem;
+  }
+
+  .extra-item-row {
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 0.9rem; margin-bottom: 0.8rem; color: var(--argent);
+  }
+
+  .extra-item-row span:last-child {
+    font-family: 'DM Mono', monospace; font-weight: 500; color: var(--accent);
+  }
+
+  /* ===== POURQUOI NOUS ===== */
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .feature-item {
+    padding: 1.5rem;
+    border: 1px solid var(--bord);
+    border-radius: var(--radius);
+    background: var(--noir-2);
+  }
+
+  .feature-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem; color: var(--accent);
+    margin-bottom: 0.8rem; display: block;
+  }
+
+  .feature-item h3 {
+    font-size: 0.95rem; font-weight: 600;
+    color: var(--blanc); margin-bottom: 0.4rem;
+  }
+
+  .feature-item p {
+    font-size: 0.85rem; color: var(--texte-muted); line-height: 1.6;
+  }
+
+  /* ===== PROCESSUS ===== */
+  .processus-bg {
+    background: var(--noir-3);
+    border-top: 1px solid var(--bord);
+    border-bottom: 1px solid var(--bord);
+  }
+
+  .processus-steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 0;
+    position: relative;
+  }
+
+  .processus-steps::before {
+    content: '';
+    position: absolute;
+    top: 28px; left: 10%; right: 10%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--bord-fort), transparent);
+  }
+
+  .step {
+    padding: 1.5rem 1rem; text-align: center;
+  }
+
+  .step-circle {
+    width: 56px; height: 56px;
+    border: 1px solid var(--bord-fort);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 1rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.85rem; color: var(--accent);
+    background: var(--noir-3);
+    position: relative; z-index: 1;
+  }
+
+  .step h3 {
+    font-size: 0.9rem; font-weight: 600; color: var(--blanc); margin-bottom: 0.3rem;
+  }
+
+  .step p { font-size: 0.8rem; color: var(--texte-muted); line-height: 1.5; }
+
+  /* ===== AVIS ===== */
+  .avis-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.2rem;
+  }
+
+  .avis-card {
+    background: var(--noir-2);
+    border: 1px solid var(--bord);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+  }
+
+  .avis-stars {
+    color: #f4c430; font-size: 0.9rem; margin-bottom: 0.8rem;
+    letter-spacing: 0.1em;
+  }
+
+  .avis-text {
+    font-size: 0.9rem; color: var(--argent);
+    line-height: 1.65; margin-bottom: 1rem;
+    font-style: italic;
+  }
+
+  .avis-author {
+    font-size: 0.8rem; color: var(--texte-muted);
+    display: flex; align-items: center; gap: 0.5rem;
+  }
+
+  .avis-avatar {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: var(--accent-pale);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.7rem; font-weight: 600; color: var(--accent);
+  }
+
+  /* ===== ZONES ===== */
+  .zones-bg {
+    background: var(--noir-2);
+    border-top: 1px solid var(--bord);
+    border-bottom: 1px solid var(--bord);
+  }
+
+  .zones-list {
+    display: flex; flex-wrap: wrap; gap: 0.5rem;
+    margin-top: 1.5rem;
+  }
+
+  .zone-tag {
+    background: var(--noir-3);
+    border: 1px solid var(--bord);
+    border-radius: 100px;
+    padding: 0.4rem 1rem;
+    font-size: 0.82rem; color: var(--argent);
+  }
+
+  /* ===== CTA FINAL ===== */
+  .cta-section {
+    text-align: center;
+    padding: 6rem 2rem;
+  }
+
+  .cta-box {
+    max-width: 680px; margin: 0 auto;
+    background: var(--noir-2);
+    border: 1px solid var(--bord-fort);
+    border-radius: 20px;
+    padding: 3.5rem 3rem;
+    position: relative; overflow: hidden;
+  }
+
+  .cta-box::before {
+    content: '';
+    position: absolute; top: -60px; left: 50%; transform: translateX(-50%);
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(123,156,244,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .cta-box h2 {
+    font-size: clamp(1.8rem, 3vw, 2.4rem);
+    font-weight: 700; letter-spacing: -0.02em;
+    color: var(--blanc); margin-bottom: 0.8rem;
+    position: relative; z-index: 1;
+  }
+
+  .cta-box p {
+    color: var(--texte-muted); margin-bottom: 2rem;
+    position: relative; z-index: 1;
+  }
+
+  .cta-actions {
+    display: flex; flex-wrap: wrap; gap: 0.8rem; justify-content: center;
+    position: relative; z-index: 1;
+    align-items: center;
+  }
+
+  .cta-tel {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.85rem; color: var(--texte-muted);
+    margin-top: 1.2rem;
+    position: relative; z-index: 1;
+  }
+
+  .cta-tel a {
+    color: var(--accent); text-decoration: none;
+  }
+
+  .btn-tiktok {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    background: #000000; color: #ffffff !important;
+    border: 1px solid rgba(255,255,255,0.2);
+    padding: 0.85rem 1.8rem; border-radius: var(--radius-sm);
+    font-size: 0.95rem; font-weight: 500; text-decoration: none;
+    transition: background 0.2s;
+  }
+  .btn-tiktok:hover {
+    background: #111111;
+    border-color: #ff0050;
+  }
+
+  /* ===== FOOTER ===== */
+  footer {
+    border-top: 1px solid var(--bord);
+    padding: 2.5rem 2rem;
+    display: flex; flex-wrap: wrap;
+    align-items: center; justify-content: space-between;
+    gap: 1rem;
+    max-width: 100%;
+  }
+
+  .footer-inner {
+    max-width: 1000px; margin: 0 auto; width: 100%;
+    display: flex; flex-wrap: wrap;
+    align-items: center; justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .footer-brand {
+    font-weight: 600; color: var(--blanc);
+    font-size: 0.9rem;
+  }
+
+  .footer-links {
+    display: flex; gap: 1.5rem; list-style: none; align-items: center;
+  }
+
+  .footer-links a {
+    font-size: 0.82rem; color: var(--texte-muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .footer-links a:hover { color: var(--argent); }
+
+  .footer-socials {
+    display: flex; gap: 1rem; align-items: center;
+  }
+  .footer-socials a {
+    color: var(--texte-muted); font-size: 0.85rem; text-decoration: none;
+    display: inline-flex; align-items: center; gap: 0.3rem;
+  }
+  .footer-socials a:hover { color: var(--blanc); }
+
+  .footer-copy {
+    font-size: 0.78rem; color: var(--texte-muted);
+    width: 100%; text-align: center;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--bord);
+    margin-top: 1rem;
+  }
+
+  /* ===== FORM ===== */
+  .booking-form {
+    background: var(--noir-2);
+    border: 1px solid var(--bord);
+    border-radius: var(--radius);
+    padding: 2rem;
+    max-width: 560px;
+  }
+
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .form-group {
+    display: flex; flex-direction: column; gap: 0.35rem;
+  }
+
+  .form-group.full { grid-column: 1 / -1; }
+
+  .form-group label {
+    font-size: 0.78rem; color: var(--texte-muted);
+    font-weight: 500; letter-spacing: 0.02em;
+  }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    background: var(--noir);
+    border: 1px solid var(--bord-fort);
+    border-radius: var(--radius-sm);
+    padding: 0.65rem 0.9rem;
+    font-size: 0.9rem; color: var(--blanc);
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.2s, background 0.2s, color 0.2s;
+    appearance: none;
+  }
+
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus {
+    border-color: var(--accent);
+  }
+
+  .form-group select option {
+    background: var(--noir-2); color: var(--blanc);
+  }
+
+  /* ===== SERVICES LIST ===== */
+  .services-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: start;
+  }
+
+  @media (max-width: 800px) {
+    .nav-links { display: none; }
+    .services-layout { grid-template-columns: 1fr; }
+    .form-grid { grid-template-columns: 1fr; }
+    .processus-steps::before { display: none; }
+    .hero-title { font-size: 2.4rem; }
+    .cta-box { padding: 2rem 1.5rem; }
+    .extras-container { grid-template-columns: 1fr; }
+    .cta-actions { flex-direction: column; width: 100%; }
+    .cta-actions a { width: 100%; text-align: center; justify-content: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== NAVIGATION ===== -->
+<nav>
+  <a href="#" class="nav-logo">
+    <span class="nav-logo-icon">👻</span>
+    Ghost AutoClean
+  </a>
+  <ul class="nav-links">
+    <li><a href="#prestations">Prestations</a></li>
+    <li><a href="#comment">Comment ça marche</a></li>
+    <li><a href="#avis">Avis</a></li>
+    <li><a href="#zones">Zones</a></li>
+  </ul>
+  <div class="nav-right">
+    <button class="theme-toggle" id="themeBtn" title="Changer le thème">
+      ☀️ <span id="themeText">Clair</span>
+    </button>
+    <a href="#reserver" class="nav-cta">Réserver</a>
+  </div>
+</nav>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid-lines"></div>
+
+  <div class="hero-content">
+    <span class="hero-badge">Service à domicile · Île-de-France</span>
+
+    <h1 class="hero-title">
+      Votre voiture,<br>
+      <em>propre comme un miroir.</em><br>
+      Où vous êtes.
+    </h1>
+
+    <p class="hero-sub">
+      Nettoyage professionnel intérieur & extérieur, detailing premium,
+      directement chez vous ou sur votre lieu de travail. Zéro déplacement pour vous.
+    </p>
+
+    <div class="hero-actions">
+      <a href="#reserver" class="btn-primary">
+        Réserver maintenant →
+      </a>
+      <a href="#prestations" class="btn-ghost">Voir les prestations</a>
+      <a href="https://www.tiktok.com/@ghost.autoclean" target="_blank" class="btn-tiktok">
+        🎵 TikTok
+      </a>
+    </div>
+
+    <div class="hero-stats">
+      <div>
+        <span class="hero-stat-val">500+</span>
+        <span class="hero-stat-label">Véhicules nettoyés</span>
+      </div>
+      <div>
+        <span class="hero-stat-val">4.9★</span>
+        <span class="hero-stat-label">Note moyenne</span>
+      </div>
+      <div>
+        <span class="hero-stat-val">2h</span>
+        <span class="hero-stat-label">Durée moyenne</span>
+      </div>
+      <div>
+        <span class="hero-stat-val">0€</span>
+        <span class="hero-stat-label">Frais de déplacement</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CAR SVG ===== -->
+<div class="car-visual">
+  <svg viewBox="0 0 800 200" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%; opacity:0.35;">
+    <ellipse cx="200" cy="170" rx="55" ry="18" fill="rgba(123,156,244,0.15)"/>
+    <ellipse cx="600" cy="170" rx="55" ry="18" fill="rgba(123,156,244,0.15)"/>
+    <path d="M120 150 L130 105 Q160 65 230 60 L370 55 Q430 55 480 70 L580 90 Q630 100 660 115 L670 150 Z" fill="var(--car-body)" stroke="var(--car-stroke)" stroke-width="1.5"/>
+    <path d="M230 60 L240 100 L500 100 L510 68" fill="none" stroke="var(--car-stroke)" stroke-width="1"/>
+    <path d="M240 100 L270 62" fill="none" stroke="var(--texte-muted)" stroke-width="0.8"/>
+    <path d="M370 58 L370 100" fill="none" stroke="var(--texte-muted)" stroke-width="0.8"/>
+    <path d="M500 100 L490 68" fill="none" stroke="var(--texte-muted)" stroke-width="0.8"/>
+    <rect x="245" y="63" width="115" height="35" rx="3" fill="rgba(123,156,244,0.1)" stroke="var(--car-stroke)" stroke-width="0.8"/>
+    <rect x="378" y="63" width="115" height="35" rx="3" fill="rgba(123,156,244,0.1)" stroke="var(--car-stroke)" stroke-width="0.8"/>
+    <ellipse cx="200" cy="155" rx="35" ry="35" fill="var(--noir-2)" stroke="var(--car-stroke)" stroke-width="1.5"/>
+    <ellipse cx="200" cy="155" rx="22" ry="22" fill="var(--car-body)"/>
+    <ellipse cx="200" cy="155" rx="10" ry="10" fill="var(--noir-2)" stroke="var(--car-stroke)" stroke-width="1"/>
+    <ellipse cx="600" cy="155" rx="35" ry="35" fill="var(--noir-2)" stroke="var(--car-stroke)" stroke-width="1.5"/>
+    <ellipse cx="600" cy="155" rx="22" ry="22" fill="var(--car-body)"/>
+    <ellipse cx="600" cy="155" rx="10" ry="10" fill="var(--noir-2)" stroke="var(--car-stroke)" stroke-width="1"/>
+    <rect x="125" y="125" width="30" height="12" rx="2" fill="var(--accent)" opacity="0.6"/>
+    <rect x="645" y="125" width="30" height="12" rx="2" fill="#e84545" opacity="0.5"/>
+    <path d="M120 150 Q90 145 75 148 L72 152 L120 155 Z" fill="var(--car-body)" stroke="var(--car-stroke)" stroke-width="1"/>
+    <path d="M670 150 Q700 145 720 148 L722 152 L670 155 Z" fill="var(--car-body)" stroke="var(--car-stroke)" stroke-width="1"/>
+    <line x1="300" y1="60" x2="270" y2="30" stroke="var(--accent)" stroke-width="0.5" opacity="0.4"/>
+    <line x1="400" y1="57" x2="400" y2="20" stroke="var(--accent)" stroke-width="0.5" opacity="0.4"/>
+    <line x1="500" y1="62" x2="530" y2="30" stroke="var(--accent)" stroke-width="0.5" opacity="0.4"/>
+    <circle cx="270" cy="28" r="3" fill="var(--accent)" opacity="0.5"/>
+    <circle cx="400" cy="18" r="3" fill="var(--accent)" opacity="0.5"/>
+    <circle cx="532" cy="28" r="3" fill="var(--accent)" opacity="0.5"/>
+  </svg>
+</div>
+
+<!-- ===== PRESTATIONS ===== -->
+<section class="prestations-bg" id="prestations">
+  <div class="section-inner">
+    <p class="section-label">Grille Tarifaire</p>
+    <h2 class="section-title">Nos formules & tarifs</h2>
+    <p class="section-sub">Des formules claires adaptées à vos besoins, réalisées avec rigueur par nos techniciens experts.</p>
+
+    <div class="prestations-grid">
+      <!-- Card 1 -->
+      <div class="prestation-card">
+        <div>
+          <div class="prestation-icon">🧽</div>
+          <h3>Nettoyage / Traitement des sièges</h3>
+          <p>Nettoyage en profondeur et traitement adapté à chaque type de matière.</p>
+          <ul class="prestation-features-list">
+            <li>Shampoing de tous les sièges</li>
+            <li>Traitement du cuir & alcantara</li>
+            <li>Traitement vapeur ciblé</li>
+            <li>Élimination tenace des taches</li>
+            <li>Désodorisation complète</li>
+          </ul>
+        </div>
+        <div class="prestation-price-box">
+          <span class="prestation-price">50€</span>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="prestation-card">
+        <div>
+          <div class="prestation-icon">💧</div>
+          <h3>Nettoyage Extérieur</h3>
+          <p>Lavage méticuleux et complet de toute la carrosserie et des éléments extérieurs.</p>
+          <ul class="prestation-features-list">
+            <li>Prélavage actif carrosserie</li>
+            <li>Shampoing haute performance</li>
+            <li>Lavage technique à la main</li>
+            <li>Séchage manuel soigné</li>
+            <li>Finition effet miroir éclatant</li>
+          </ul>
+        </div>
+        <div class="prestation-price-box">
+          <span class="prestation-price">55€</span>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="prestation-card">
+        <div>
+          <div class="prestation-icon">⏱️</div>
+          <h3>Clean Express</h3>
+          <p>Entretien et dépoussiérage rigoureux de l'habitacle intérieur (hors traitement des sièges).</p>
+          <ul class="prestation-features-list">
+            <li>Aspiration complète des moquettes</li>
+            <li>Aspiration approfondie des tapis</li>
+            <li>Shampoing complet des tapis</li>
+            <li>Nettoyage complet du tableau de bord</li>
+          </ul>
+        </div>
+        <div class="prestation-price-box">
+          <span class="prestation-price">60€</span>
+        </div>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="prestation-card">
+        <div>
+          <div class="prestation-icon">✨</div>
+          <h3>Lavage Intérieur + Extérieur sans sièges</h3>
+          <p>Formule globale combinant un habitacle propre et un extérieur brillant, sans traitement profond des sièges.</p>
+          <ul class="prestation-features-list">
+            <li>Aspiration de tout l'habitacle</li>
+            <li>Shampoing des tapis & plastiques</li>
+            <li>Nettoyage portières & seuils de portes</li>
+            <li>Tableau de bord & nettoyage vapeur</li>
+            <li>Lavage extérieur complet à la main</li>
+          </ul>
+        </div>
+        <div class="prestation-price-box">
+          <span class="prestation-price">70€</span>
+        </div>
+      </div>
+
+      <!-- Card 5 -->
+      <div class="prestation-card highlight">
+        <div>
+          <div class="prestation-icon">🚗</div>
+          <h3>Lavage Intérieur + shampoing sièges</h3>
+          <p>Le grand classique pour retrouver un habitacle sain, purifié et débarrassé des taches tenaces.</p>
+          <ul class="prestation-features-list">
+            <li>Nettoyage complet de l'intérieur</li>
+            <li>Shampoing intégral de tous les sièges</li>
+            <li>Aspiration moquettes & tapis</li>
+            <li>Dépoussiérage complet des plastiques</li>
+            <li>Traitement vapeur assainissant</li>
+          </ul>
+        </div>
+        <div class="prestation-price-box">
+          <span class="prestation-price">80€</span>
+        </div>
+      </div>
+
+      <!-- Card 6 -->
+      <div class="prestation-card">
+        <div>
+          <div class="prestation-icon">👑</div>
+          <h3>Lavage Intérieur + Extérieur + shampoing sièges</h3>
+          <p>La formule ultime de remise à neuf totale, combinant esthétique extérieure et assainissement intérieur.</p>
+          <ul class="prestation-features-list">
+            <li>Lavage complet intérieur & extérieur</li>
+            <li>Traitement et shampoing profond des sièges</li>
+            <li>Nettoyage des seuils, plastiques & vitres</li>
+            <li>Nettoyage carrosserie effet miroir</li>
+            <li>Séchage et finitions premium</li>
+          </ul>
+        </div>
+        <div class="prestation-price-box">
+          <span class="prestation-price">100€</span>
+        </div>
+      </div>
+
+      <!-- Card 7 -->
+      <div class="prestation-card highlight">
+        <div>
+          <div class="prestation-icon">📦</div>
+          <h3>Abonnement Mensuel</h3>
+          <p>Maintenez votre véhicule impeccable à l'année. Comprend 2 lavages Clean Express par mois avec nettoyage complet des sièges inclus.</p>
+          <ul class="prestation-features-list">
+            <li>2 interventions Clean Express / mois</li>
+            <li>Aspiration moquettes & tapis</li>
+            <li>Shampoing des tapis & tableau de bord</li>
+            <li>Shampoing de tous les sièges inclus</li>
+            <li><strong>Économisez 40€ par mois</strong></li>
+          </ul>
+        </div>
+        <div class="prestation-price-box">
+          <span class="prestation-price">100€<span style="font-size:0.8rem; color:var(--texte-muted);">/mois</span></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Extra Options & Supplements Grid -->
+    <div class="extras-container">
+      <div class="extra-box-card">
+        <h4>➕ Options supplémentaires</h4>
+        <div class="extra-item-row"><span>Coffre</span><span>15€</span></div>
+        <div class="extra-item-row"><span>Jantes</span><span>25€</span></div>
+        <div class="extra-item-row"><span>Nettoyage et shampoing du plafonnier</span><span>20€</span></div>
+      </div>
+      <div class="extra-box-card">
+        <h4>⚠️ Suppléments (si applicable)</h4>
+        <div class="extra-item-row"><span>Présence de poils d'animaux</span><span>25€</span></div>
+        <div class="extra-item-row"><span>Présence de moisissures</span><span>35€</span></div>
+        <div class="extra-item-row"><span>Présence de sable</span><span>10€</span></div>
+        <div class="extra-item-row"><span>Véhicule non vidé</span><span>10€</span></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ===== POURQUOI NOUS ===== -->
+<section>
+  <div class="section-inner">
+    <p class="section-label">Pourquoi Ghost AutoClean</p>
+    <h2 class="section-title">Professionnel, sans effort de votre part</h2>
+    <p class="section-sub">Plus besoin de se déplacer au centre de lavage. Nous venons chez vous avec tout le matériel.</p>
+
+    <div class="features-grid">
+      <div class="feature-item">
+        <span class="feature-num">01</span>
+        <h3>Déplacement à domicile</h3>
+        <p>On vient chez vous, sur votre parking, ou sur votre lieu de travail. Zéro contrainte.</p>
+      </div>
+      <div class="feature-item">
+        <span class="feature-num">02</span>
+        <h3>Produits pro certifiés</h3>
+        <p>Produits pH neutres, microfibres premium, machines professionnelles. Résultat garanti sans dommage.</p>
+      </div>
+      <div class="feature-item">
+        <span class="feature-num">03</span>
+        <h3>Ponctualité garantie</h3>
+        <p>On respecte les créneaux. SMS de rappel 24h avant et notification le jour J.</p>
+      </div>
+      <div class="feature-item">
+        <span class="feature-num">04</span>
+        <h3>Paiement simplifié</h3>
+        <p>CB, virement, espèces — paiement après prestation, pas avant. Facturation sur demande.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== COMMENT ÇA MARCHE ===== -->
+<section class="processus-bg" id="comment">
+  <div class="section-inner">
+    <p class="section-label">Processus</p>
+    <h2 class="section-title" style="text-align:center;">Prêt en 4 étapes</h2>
+
+    <div class="processus-steps">
+      <div class="step">
+        <div class="step-circle">01</div>
+        <h3>Choisissez</h3>
+        <p>Sélectionnez la prestation adaptée à votre véhicule et à votre budget</p>
+      </div>
+      <div class="step">
+        <div class="step-circle">02</div>
+        <h3>Réservez</h3>
+        <p>Choisissez un créneau disponible directement en ligne</p>
+      </div>
+      <div class="step">
+        <div class="step-circle">03</div>
+        <h3>On vient</h3>
+        <p>Votre technicien arrive à l'heure avec tout l'équipement nécessaire</p>
+      </div>
+      <div class="step">
+        <div class="step-circle">04</div>
+        <h3>Profitez</h3>
+        <p>Votre voiture brille. Vous n'avez rien eu à faire.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== AVIS ===== -->
+<section id="avis">
+  <div class="section-inner">
+    <p class="section-label">Ce qu'ils en disent</p>
+    <h2 class="section-title">Avis clients</h2>
+    <p class="section-sub">Plus de 500 véhicules nettoyés en Île-de-France. Voici ce qu'en disent nos clients.</p>
+
+    <div class="avis-grid">
+      <div class="avis-card">
+        <div class="avis-stars">★★★★★</div>
+        <p class="avis-text">"Résultat bluffant sur ma BMW série 5. L'intérieur est revenu comme neuf en moins de 2h. Je recommande sans hésiter, le rapport qualité-prix est imbattable."</p>
+        <div class="avis-author">
+          <div class="avis-avatar">TM</div>
+          Thomas M. — Versailles
+        </div>
+      </div>
+
+      <div class="avis-card">
+        <div class="avis-stars">★★★★★</div>
+        <p class="avis-text">"Super pratique le déplacement à domicile. Pendant que mon SUV était nettoyé, j'ai pu bosser tranquillement. La carrosserie est comme un miroir !"</p>
+        <div class="avis-author">
+          <div class="avis-avatar">SB</div>
+          Sophie B. — Boulogne-Billancourt
+        </div>
+      </div>
+
+      <div class="avis-card">
+        <div class="avis-stars">★★★★★</div>
+        <p class="avis-text">"J'ai pris la formule detailing premium pour ma revente et les photos de l'annonce ont fait un carton. La voiture semblait sortie du showroom. Merci !"</p>
+        <div class="avis-author">
+          <div class="avis-avatar">KD</div>
+          Karim D. — Créteil
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== ZONES ===== -->
+<section class="zones-bg" id="zones">
+  <div class="section-inner">
+    <p class="section-label">Zone d'intervention</p>
+    <h2 class="section-title">On vient chez vous en Île-de-France</h2>
+    <p class="section-sub">Nous intervenons dans tous les départements d'Île-de-France. Vérifiez si votre ville est couverte.</p>
+
+    <div class="zones-list">
+      <span class="zone-tag">Paris (75)</span>
+      <span class="zone-tag">Hauts-de-Seine (92)</span>
+      <span class="zone-tag">Val-de-Marne (94)</span>
+      <span class="zone-tag">Seine-Saint-Denis (93)</span>
+      <span class="zone-tag">Yvelines (78)</span>
+      <span class="zone-tag">Essonne (91)</span>
+      <span class="zone-tag">Val-d'Oise (95)</span>
+      <span class="zone-tag">Seine-et-Marne (77)</span>
+    </div>
+  </div>
+</section>
+
+<!-- ===== RÉSERVATION ===== -->
+<section id="reserver">
+  <div class="section-inner">
+    <p class="section-label">Présentation & RDV</p>
+    <h2 class="section-title">Réservez votre créneau</h2>
+    <p class="section-sub">Remplissez le formulaire et nous vous confirmons la disponibilité sous 2h.</p>
+
+    <div class="services-layout">
+      <div class="booking-form">
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Prénom</label>
+            <input type="text" placeholder="Jean">
+          </div>
+          <div class="form-group">
+            <label>Nom</label>
+            <input type="text" placeholder="Dupont">
+          </div>
+          <div class="form-group full">
+            <label>Téléphone</label>
+            <input type="tel" placeholder="06 19 97 08 57" value="06 19 97 08 57">
+          </div>
+          <div class="form-group full">
+            <label>Email</label>
+            <input type="email" placeholder="votre@email.com">
+          </div>
+          <div class="form-group full">
+            <label>Ville d'intervention</label>
+            <input type="text" placeholder="Paris 15ème, Versailles...">
+          </div>
+          <div class="form-group full">
+            <label>Prestation souhaitée</label>
+            <select>
+              <option value="">Sélectionnez...</option>
+              <option>Nettoyage / Traitement des sièges — 50€</option>
+              <option>Nettoyage Extérieur — 55€</option>
+              <option>Clean Express — 60€</option>
+              <option>Lavage Intérieur + Extérieur sans sièges — 70€</option>
+              <option>Lavage Intérieur + shampoing sièges — 80€</option>
+              <option>Lavage Intérieur + Extérieur + shampoing sièges — 100€</option>
+              <option>Abonnement mensuel — 100€/mois</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Date souhaitée</label>
+            <input type="date">
+          </div>
+          <div class="form-group">
+            <label>Créneau préféré</label>
+            <select>
+              <option>Matin (8h-12h)</option>
+              <option>Après-midi (12h-18h)</option>
+              <option>Soir (18h-20h)</option>
+            </select>
+          </div>
+          <div class="form-group full">
+            <button class="btn-primary" style="width:100%; justify-content:center; border:none;">
+              Envoyer ma demande →
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div style="margin-bottom: 2rem;">
+          <h3 style="font-size: 1rem; font-weight:600; color:var(--blanc); margin-bottom: 0.8rem;">Nos garanties</h3>
+          <div style="display:flex; flex-direction:column; gap:0.8rem;">
+            <div style="display:flex; gap:0.7rem; align-items:flex-start;">
+              <span style="color:var(--accent); font-size:1rem; flex-shrink:0; margin-top:1px;">✓</span>
+              <span style="font-size:0.875rem; color:var(--texte-muted);">Confirmation de réservation sous 2h</span>
+            </div>
+            <div style="display:flex; gap:0.7rem; align-items:flex-start;">
+              <span style="color:var(--accent); font-size:1rem; flex-shrink:0; margin-top:1px;">✓</span>
+              <span style="font-size:0.875rem; color:var(--texte-muted);">Aucun frais de déplacement en Île-de-France</span>
+            </div>
+            <div style="display:flex; gap:0.7rem; align-items:flex-start;">
+              <span style="color:var(--accent); font-size:1rem; flex-shrink:0; margin-top:1px;">✓</span>
+              <span style="font-size:0.875rem; color:var(--texte-muted);">Paiement uniquement après la prestation</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="border:1px solid var(--bord); border-radius:var(--radius); padding:1.5rem; background:var(--noir-2); margin-bottom: 1rem;">
+          <p style="font-size:0.75rem; color:var(--texte-muted); margin-bottom:0.4rem; letter-spacing:0.05em; font-family:'DM Mono',monospace;">Besoin d'un devis rapide ?</p>
+          <a href="tel:+33619970857" style="font-size:1.4rem; font-weight:700; color:var(--blanc); text-decoration:none; display:block; margin-bottom:0.3rem;">06.19.97.08.57</a>
+          <p style="font-size:0.8rem; color:var(--texte-muted);">Disponible 7j/7 · Réponse immédiate</p>
+        </div>
+
+        <div style="border:1px solid var(--bord); border-radius:var(--radius); padding:1.2rem; background:var(--noir-3); display:flex; align-items:center; gap:0.8rem;">
+          <span style="font-size:1.5rem;">🎵</span>
+          <div>
+            <p style="font-size:0.85rem; font-weight:600; color:var(--blanc); margin-bottom:0.1rem;">Suivez-nous sur TikTok</p>
+            <a href="https://www.tiktok.com/@ghost.autoclean" target="_blank" style="font-size:0.8rem; color:var(--accent); text-decoration:none;">@ghost.autoclean</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CTA FINAL ===== -->
+<section class="cta-section">
+  <div class="cta-box">
+    <h2>Votre voiture mérite mieux qu'un passage au karcher.</h2>
+    <p>Réservez un nettoyage professionnel à domicile en 2 minutes. Résultat garanti ou nouvelle intervention offerte.</p>
+    <div class="cta-actions">
+      <a href="#reserver" class="btn-primary">Réserver maintenant →</a>
+      <a href="tel:+33619970857" class="btn-ghost">Appeler : 06.19.97.08.57</a>
+      <a href="https://www.tiktok.com/@ghost.autoclean" target="_blank" class="btn-tiktok">
+        Suivre sur TikTok
+      </a>
+    </div>
+    <p class="cta-tel">
+      Ou écrivez-nous : <a href="mailto:ghost.autoclean@gmail.com">ghost.autoclean@gmail.com</a>
+    </p>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand">👻 Ghost AutoClean</div>
+      <p style="font-size:0.78rem; color:var(--texte-muted); margin-top:0.3rem;">Nettoyage pro à domicile · Île-de-France</p>
+    </div>
+    <div class="footer-socials">
+      <a href="mailto:ghost.autoclean@gmail.com">✉️ ghost.autoclean@gmail.com</a>
+      <a href="https://www.tiktok.com/@ghost.autoclean" target="_blank">🎵 @ghost.autoclean (TikTok)</a>
+    </div>
+    <p class="footer-copy">© 2026 Ghost AutoClean · Mentions légales · Politique de confidentialité</p>
+  </div>
+</footer>
+
+<script>
+// Gestion du mode Clair / Sombre
+const themeBtn = document.getElementById('themeBtn');
+const themeText = document.getElementById('themeText');
+
+themeBtn.addEventListener('click', () => {
+  document.body.classList.toggle('light-mode');
+  if(document.body.classList.contains('light-mode')) {
+    themeBtn.innerHTML = '🌙 <span id="themeText">Sombre</span>';
+  } else {
+    themeBtn.innerHTML = '☀️ <span id="themeText">Clair</span>';
+  }
+});
+
+// Validation simple formulaire
+document.querySelector('.booking-form button').addEventListener('click', function(e){
+  e.preventDefault();
+  const inputs = document.querySelectorAll('.booking-form input, .booking-form select');
+  let ok = true;
+  inputs.forEach(i => {
+    if(i.type !== 'date' && !i.value.trim()) { i.style.borderColor = '#e84545'; ok = false; }
+    else { i.style.borderColor = ''; }
+  });
+  if(ok){
+    this.textContent = 'Demande envoyée ✓';
+    this.style.background = '#2a5a35';
+    this.style.color = '#a8e4b4';
+  }
+});
+</script>
+
+</body>
+</html>
